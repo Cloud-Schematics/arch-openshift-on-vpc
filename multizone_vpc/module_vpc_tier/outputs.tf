@@ -2,9 +2,15 @@
 # Outputs
 ##############################################################################
 
-output subnet_ids {
-  description = "IDs of subnets created for this tier"
-  value       = ibm_is_subnet.subnet.*.id
+output subnets {
+  description = "ID and zones of subnets created for this tier"
+  value       = [
+    for i in ibm_is_subnet.subnet:
+    {
+      id = i.id
+      zone = i.zone
+    }
+  ]
 }  
 
 output cidr_blocks {

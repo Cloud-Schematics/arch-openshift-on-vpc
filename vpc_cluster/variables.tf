@@ -24,9 +24,16 @@ variable vpc_id {
     type        = string
 }
 
-variable subnet_ids {
-    description = "List of subnet names"
-    type        = list
+variable subnets {
+    description = "List of subnet names and zones"
+    type        = list(
+        object(
+            {
+                id   = string
+                zone = string
+            }
+        )
+    )
     default     = []
 }
 

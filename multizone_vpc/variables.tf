@@ -11,7 +11,6 @@ variable unique_id {
 variable ibm_region {
     description = "IBM Cloud region where all resources will be deployed"
     type        = string
-    default     = "us-south"
 }
 
 variable resource_group_id {
@@ -38,18 +37,28 @@ variable enable_public_gateway {
   default     = true
 }
 
+variable cidr_blocks {
+  description = "A list of tier subnet CIDR blocks"
+  type        = list //(string)
+  default     = [
+    "10.10.10.0/24",
+    "10.10.20.0/24",
+    "10.10.30.0/24"
+  ] 
+}
+
 variable acl_rules {
   description = "Access control list rule set"
   default = [
     {
-      name        = "egress"
+      name        = "allow-all-inbound"
       action      = "allow"
       source      = "0.0.0.0/0"
       destination = "0.0.0.0/0"
       direction   = "inbound"
     },
     {
-      name        = "ingress"
+      name        = "allow-all-outbound"
       action      = "allow"
       source      = "0.0.0.0/0"
       destination = "0.0.0.0/0"
@@ -59,10 +68,15 @@ variable acl_rules {
   
 }
 
-variable default_sg_allow_inbound_traffic {
-  description = "In Gen2 the default security group denies all inbound traffic into the VPC. If you would like to add a rule to allow all traffic, change this value to true"
-  type        = bool
-  default     = true
+variable security_group_rules {
+  description = "List of security group rules to be added to default security group"
+  default     = {
+    allow_all_inbound = {
+      source    = "0.0.0.0/0"
+      direction = "inbound"
+    }
+  }
 }
+
 
 ##############################################################################

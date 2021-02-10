@@ -22,10 +22,11 @@ resource ibm_is_vpc vpc {
 ##############################################################################
 
 resource ibm_is_public_gateway gateway {
-  count = var.enable_public_gateway ? 3 : 0
-  name  = "${var.unique_id}-gateway-${count.index + 1}"
-  vpc   = ibm_is_vpc.vpc.id
-  zone  = "${var.ibm_region}-${count.index + 1}"
+  count          = var.enable_public_gateway ? 3 : 0
+  name           = "${var.unique_id}-gateway-${count.index + 1}"
+  vpc            = ibm_is_vpc.vpc.id
+  resource_group = var.resource_group_id
+  zone           = "${var.ibm_region}-${count.index + 1}"
 }
 
 ##############################################################################
@@ -38,9 +39,11 @@ resource ibm_is_public_gateway gateway {
 module subnets {
   source           = "./module_vpc_tier" 
   ibm_region       = var.ibm_region 
-  unique_id        = "${var.unique_id}"                      
+  unique_id        = var.unique_id                    
   acl_id           = ibm_is_network_acl.multizone_acl.id
+  cidr_blocks      = var.cidr_blocks
   vpc_id           = ibm_is_vpc.vpc.id
+  resource_group   = var.resource_group_id
   public_gateways  = ibm_is_public_gateway.gateway.*.id
 }
 

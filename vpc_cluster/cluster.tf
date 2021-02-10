@@ -26,7 +26,6 @@ resource ibm_resource_instance cos {
 ##############################################################################
 
 
-
 ##############################################################################
 # Create IKS on VPC Cluster
 ##############################################################################
@@ -44,10 +43,10 @@ resource ibm_container_vpc_cluster cluster {
   wait_till         = "IngressReady" #var.wait_till
 
   dynamic zones {
-    for_each = var.subnet_ids
+    for_each = var.subnets
     content {
-      subnet_id = zones.value
-      name      = "${var.ibm_region}-${index(var.subnet_ids, zones.value) + 1}"
+      subnet_id = zones.value.id
+      name      = zones.value.zone
     }
   }
   cos_instance_crn                = ibm_resource_instance.cos.id
@@ -68,13 +67,7 @@ module worker_pools {
   vpc_id            = var.vpc_id
   resource_group_id = var.resource_group_id
   cluster_name_id   = ibm_container_vpc_cluster.cluster.id
-  subnets           = [
-      for i in var.subnet_ids:
-      {
-          id: i
-          zone: "${var.ibm_region}-${index(var.subnet_ids, i) + 1}"
-      }
-  ]
+  subnets           = var.subnets
 }
 
 ##############################################################################

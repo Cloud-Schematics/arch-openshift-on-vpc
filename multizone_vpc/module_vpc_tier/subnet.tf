@@ -27,6 +27,7 @@ resource ibm_is_subnet subnet {
   count                    = var.subnets_per_zone * var.zones
   name                     = "${var.unique_id}-subnet-${count.index + 1}"
   vpc                      = var.vpc_id
+  resource_group           = var.resource_group
   zone                     = "${var.ibm_region}-${(count.index % var.zones) + 1}"
   ipv4_cidr_block          = length(var.cidr_blocks) > 0 ? element(ibm_is_vpc_address_prefix.subnet_prefix.*.cidr, count.index) : null
   network_acl              = var.enable_acl_id ? var.acl_id : null

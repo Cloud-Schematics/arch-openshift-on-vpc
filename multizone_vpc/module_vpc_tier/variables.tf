@@ -12,6 +12,12 @@ variable unique_id {
     type        = string
 }
 
+variable resource_group {
+    description = "Name of resource group to create VPC"
+    type        = string
+    default     = "asset-development"
+}
+
 ##############################################################################
 
 ##############################################################################
