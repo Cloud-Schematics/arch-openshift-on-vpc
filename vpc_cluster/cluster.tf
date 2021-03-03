@@ -1,32 +1,4 @@
 ##############################################################################
-# COS Instance
-##############################################################################
-
-resource ibm_resource_instance cos {
-  name              = "${var.cluster_name}-cos"
-  service           = "cloud-object-storage"
-  plan              = "standard"
-  location          = "global"
-  resource_group_id = var.resource_group_id != "" ? var.resource_group_id : null
-
-  parameters = {
-    service-endpoints = "private"
-  }
-
-  timeouts {
-    create = "1h"
-    update = "1h"
-    delete = "1h"
-  }
-
-}
-
-##############################################################################
-
-##############################################################################
-
-
-##############################################################################
 # Create IKS on VPC Cluster
 ##############################################################################
 
@@ -49,7 +21,7 @@ resource ibm_container_vpc_cluster cluster {
       name      = zones.value.zone
     }
   }
-  cos_instance_crn                = ibm_resource_instance.cos.id
+  cos_instance_crn                = var.cos_instance_crn
   disable_public_service_endpoint = var.disable_public_service_endpoint
 }
 

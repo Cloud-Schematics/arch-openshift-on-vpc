@@ -50,6 +50,11 @@ variable cluster_name {
     default     = "jv-gen2-tf-test-cluster"
 }
 
+variable cos_instance_crn {
+    description = "COS Instance CRN for ROKS Cluster"
+    type        = string
+}
+
 variable machine_type {
     description = "The flavor of VPC worker node to use for your cluster"
     type        = string
