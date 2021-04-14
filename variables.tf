@@ -51,7 +51,7 @@ variable classic_access {
 variable enable_public_gateway {
   description = "Enable public gateways for subnets, true or false"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable cidr_blocks {
@@ -165,6 +165,49 @@ variable worker_pools {
     #        workers_per_zone = 2
     #    }
     #]
+}
+
+##############################################################################
+
+
+##############################################################################
+# Resource Variables
+##############################################################################
+
+variable service_endpoints {
+  description = "Service endpoints for resource instances. Can be `public`, `private`, or `public-and-private`"
+  type        = string
+  default     = "private"
+}
+
+variable kms_plan {
+  description = "Plan for Key Protect"
+  type        = string
+  default     = "tiered-pricing"  
+}
+
+variable kms_root_key_name {
+  description = "Name of the root key for Key Protect instance"
+  type        = string
+  default     = "root-key"
+}
+
+variable cos_plan {
+  description = "Plan for Cloud Object Storage instance"
+  type        = string
+  default     = "standard"
+}
+
+variable logdna_plan {
+  description = "Plan for Databases for PostgreSQL"
+  type        = string
+  default     = "7-day"
+}
+
+variable sysdig_plan {
+  description = "Plan for Databases for PostgreSQL"
+  type        = string
+  default     = "graduated-tier"
 }
 
 ##############################################################################

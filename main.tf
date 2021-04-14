@@ -34,6 +34,30 @@ module vpc {
 
 
 ##############################################################################
+# Resources
+##############################################################################
+
+module resources {
+  source            = "./resources"
+
+  # Account Variables
+  unique_id         = var.unique_id
+  ibm_region        = var.ibm_region
+  resource_group_id = data.ibm_resource_group.resource_group.id
+
+  # Resource Variables
+  service_endpoints = var.service_endpoints
+  kms_plan          = var.kms_plan
+  kms_root_key_name = var.kms_root_key_name
+  cos_plan          = var.cos_plan
+  logdna_plan       = var.logdna_plan
+  sysdig_plan       = var.sysdig_plan
+}
+
+##############################################################################
+
+
+##############################################################################
 # Cluster
 ##############################################################################
 
@@ -55,6 +79,7 @@ module cluster {
   kube_version        = var.kube_version
   wait_till           = var.wait_till
   worker_pools        = var.worker_pools
+  cos_instance_crn    = module.resources.cos_id
   
 }
 
