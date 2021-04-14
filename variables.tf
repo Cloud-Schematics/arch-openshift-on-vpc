@@ -123,7 +123,7 @@ variable disable_public_service_endpoint {
 variable kube_version {
     description = "Specify the Kubernetes version, including the major and minor version. To see available versions, run ibmcloud ks versions. To use the default, leave string empty"
     type        = string
-    default     = "4.5.24_openshift"
+    default     = "4.5.35_openshift"
 }
 
 variable entitlement {
